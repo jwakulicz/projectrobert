@@ -43,6 +43,8 @@ if __name__ == "__main__":
             line = cell_line[-27:]
         cells[-1].append(line.rstrip())
         
+    print(cells)
+        
     cells=cells[1:]
     
     for cell in cells:
