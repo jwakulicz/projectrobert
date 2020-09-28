@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys 
 
 def matching_line(lines, keyword):
