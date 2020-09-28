@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import sys 
+import sys
+import subprocess
 
 def matching_line(lines, keyword):
     for line in lines:
@@ -24,11 +25,18 @@ def get_quality():
 def get_name(cell):
     return matching_line(cell,"ESSID:")[1:-1]
     
+def do_wlist_scan():
+    out = subprocess.Popen(['iwlist','wlan0','scan'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    stdout,stderr = out.communicate()
+    if stderr != None
+        return stderr
+    return stdout
+    
 if __name__ == "__main__":
     cells = [[]]
     parsed_cells=[]
     
-    for line in sys.stdin:
+    for line in do_wlist_scan():
         cell_line = match(line, "Cell ")
         if cell_line != None:
             cells.append([])
