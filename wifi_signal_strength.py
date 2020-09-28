@@ -48,4 +48,4 @@ if __name__ == "__main__":
     for cell in cells:
         parsed_cells.append({"Name:":get_name(cell), "Strength": get_quality(cell)})
     
-    print(parced_cells)
+    print(parsed_cells)
