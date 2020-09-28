@@ -29,7 +29,7 @@ def do_wlist_scan():
     out = subprocess.Popen(['iwlist','wlan0','scan'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return out
     
-if __name__ == "__main__":
+def get_wifi_strengths():
     cells = [[]]
     parsed_cells=[]
     
@@ -45,3 +45,4 @@ if __name__ == "__main__":
     for cell in cells:
         parsed_cells.append({"Name:":get_name(cell), "Strength": get_quality(cell)})
     
+    return parsed_cells
