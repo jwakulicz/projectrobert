@@ -46,6 +46,8 @@ if __name__ == "__main__":
     cells=cells[1:]
     
     for cell in cells:
-        parsed_cells.append({"Name:":get_name(cell), "Strength": get_quality(cell)})
+        print(get_name(cell))
+        print(get_quality(cell))
+        #parsed_cells.append({"Name:":get_name(cell), "Strength": get_quality(cell)})
     
-    print(parsed_cells)
+    #print(parsed_cells)
