@@ -28,7 +28,7 @@ def get_name(cell):
 def do_wlist_scan():
     out = subprocess.Popen(['iwlist','wlan0','scan'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout,stderr = out.communicate()
-    if stderr != None
+    if stderr != None:
         return stderr
     return stdout
     
