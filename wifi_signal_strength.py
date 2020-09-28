@@ -18,7 +18,7 @@ def match(line,keyword):
     else:
         return None
     
-def get_quality():
+def get_quality(cell):
     quality = matching_line(cell, "Quality=").split()[0].split('/')
     return str(int(round(float(quality[0])/float(quality[1]) * 100))).rjust(3)
     
@@ -27,29 +27,21 @@ def get_name(cell):
     
 def do_wlist_scan():
     out = subprocess.Popen(['iwlist','wlan0','scan'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    stdout,stderr = out.communicate()
-    if stderr != None:
-        return stderr
-    return stdout
+    return out
     
 if __name__ == "__main__":
     cells = [[]]
     parsed_cells=[]
     
-    for line in do_wlist_scan():
+    for line in iter(do_wlist_scan().stdout.readline,''):
         cell_line = match(line, "Cell ")
         if cell_line != None:
             cells.append([])
             line = cell_line[-27:]
         cells[-1].append(line.rstrip())
         
-    print(cells)
-        
     cells=cells[1:]
     
     for cell in cells:
-        print(get_name(cell))
-        print(get_quality(cell))
-        #parsed_cells.append({"Name:":get_name(cell), "Strength": get_quality(cell)})
+        parsed_cells.append({"Name:":get_name(cell), "Strength": get_quality(cell)})
     
-    #print(parsed_cells)
