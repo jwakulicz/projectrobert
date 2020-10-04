@@ -20,7 +20,7 @@ def match(line,keyword):
     
 def get_quality(cell):
     quality = matching_line(cell, "Quality=").split()[0].split('/')
-    return int(round(float(quality[0])/float(quality[1]) * 100)).rjust(3)
+    return int(round(float(quality[0])/float(quality[1]) * 100))
     
 def get_name(cell):
     return matching_line(cell,"ESSID:")[1:-1]
@@ -43,6 +43,6 @@ def get_wifi_strengths():
     cells=cells[1:]
     
     for cell in cells:
-        parsed_cells.append({"Name:":get_name(cell), "Strength": get_quality(cell)})
+        parsed_cells.append({"Name":get_name(cell), "Strength": get_quality(cell)})
     
     return parsed_cells
