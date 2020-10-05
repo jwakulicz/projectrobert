@@ -72,19 +72,12 @@ if __name__ == '__main__':
 
     http_server = HTTPServer((host_name, host_port), MyServer)
     print("Server Starts - %s:%s" % (host_name, host_port))
-    count = 1
-    
-    while(1):
-        print(count)
+
+    try:
+        http_server.serve_forever()    
+    except KeyboardInterrupt:
+        print("Server Stopped")
+        robert.exit()
+        http_server.server_close()
         
-        try:
-            http_server.serve_forever()    
-        except KeyboardInterrupt:
-            print("Server Stopped")
-            robert.exit()
-            http_server.server_close()
-        
-        break
-        
-        count += count
         
