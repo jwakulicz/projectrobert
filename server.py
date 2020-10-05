@@ -5,10 +5,11 @@ import threading
 
 robert = hello_car.Robert()
 host_port = 8000
+wssi_toggle = False
 
 def wssi_thread_func(robert):
-    t = threading.currentThread()
-    while getattr(t, "do_run", True):
+    gobal wssi_toggle
+    while (wssi_toggle)):
         wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
     print("Wifi Signal Strength Stopped")
 
@@ -66,7 +67,7 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
         
-        wssi_thread = threading.Thread(target=wssi_thread_func, args=(robert, ))
+        threading.Thread(target=wssi_thread_func, args=(robert, ), daemon=True).start()
 
         if post_data == 'forward':
             robert.forward()
@@ -79,11 +80,12 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'backward':
             robert.backward()
         elif post_data == 'start_wssi':
-            wssi_thread.start()
+            global wssi_toggle 
+            wssi_toggle = True
         elif post_data == 'close_server':
             print("Server Stopped")
-            wssi_thread.do_run = False
-            wssi_thread.join()
+            global wssi_toggle 
+            wssi_toggle = False
             wifi_sig.turn_off_led(robert.red_pin, robert.blue_pin, robert.green_pin)
             robert.exit()
             http_server.server_close()
