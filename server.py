@@ -7,7 +7,7 @@ import time
 robert = hello_car.Robert()
 host_port = 8000
 
-def thread_function(robert):
+def wifi_sig_str_thread_function(robert):
     while(1):
         wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
 
@@ -48,7 +48,7 @@ class MyServer(BaseHTTPRequestHandler):
                 <input type="submit" name="right" value="right" />
             </form>
             <form action="" method="post">
-                <input type="submit" name="start count thread" value="start_count" />
+                <input type="submit" name="start wifi signal strength indicator" value="start_wssi" />
             </form>
             </body>
             </html>
@@ -72,9 +72,8 @@ class MyServer(BaseHTTPRequestHandler):
             robert.right()
         elif post_data == 'backward':
             robert.backward()
-        elif post_data == 'start_count':
-            counting_thread = threading.Thread(target=thread_function, args=(robert, ))
-            counting_thread.start()
+        elif post_data == 'start_wssi':
+            threading.Thread(target=wifi_sig_str_thread_function, args=(robert, )).start()
             
         self._redirect('/')    # Redirect back to the root url
 
