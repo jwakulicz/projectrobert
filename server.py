@@ -4,7 +4,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import hello_car
 
 
-host_name = '192.168.15.10'    # ip address of Pi
+host_name = '192.168.15.9'    # ip address of Pi
 host_port = 8000
 
 
@@ -46,7 +46,7 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]    # Only keep the value
         
         if post_data == 'forward':
-            hello_car.forward
+            hello_car.forward()
 
         # GPIO setup here
 
