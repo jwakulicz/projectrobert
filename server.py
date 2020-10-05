@@ -6,17 +6,11 @@ import threading
 robert = hello_car.Robert()
 host_port = 8000
 
-class StoppableWSSIThread(threading.Thread):
-
-    def __init__(self,  *args, **kwargs):
-        super(StoppableWSSIThread, self).__init__(*args, **kwargs)
-
-    def stop(self):
-        self.is_alive = False
-    
-    def run(self):
-        while(self.is_alive):
-            wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
+def wssi_thread_func(robert):
+    t = threading.currentThread()
+    while getattr(t, "do_run", True):
+        wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
+    print("Wifi Signal Strength Stopped")
 
 class MyServer(BaseHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
@@ -72,7 +66,7 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
         
-        wssi_thread = StoppableWSSIThread(args=(robert, ))
+        wssi_thread = threading.Thread(target=wssi_thread_func, args=(robert, ))
 
         if post_data == 'forward':
             robert.forward()
@@ -88,7 +82,8 @@ class MyServer(BaseHTTPRequestHandler):
             wssi_thread.start()
         elif post_data == 'close_server':
             print("Server Stopped")
-            wssi_thread.stop()
+            wssi_thread.do_run = False
+            wssi_thread.join()
             wifi_sig.turn_off_led(robert.red_pin, robert.blue_pin, robert.green_pin)
             robert.exit()
             http_server.server_close()
