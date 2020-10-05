@@ -9,7 +9,7 @@ wssi_toggle = False
 
 def wssi_thread_func(robert):
     global wssi_toggle
-    while (wssi_toggle)):
+    while (wssi_toggle):
         wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
     print("Wifi Signal Strength Stopped")
 
