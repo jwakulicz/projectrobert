@@ -1,9 +1,10 @@
 import RPi.GPIO as GPIO
 import os
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import hello_car
 
 
-host_name = '192.168.15.13'    # ip address of Pi
+host_name = '192.168.15.10'    # ip address of Pi
 host_port = 8000
 
 
@@ -29,6 +30,9 @@ class MyServer(BaseHTTPRequestHandler):
             <body style="width:960px; margin: 20px auto;">
             <h1>Welcome to my Raspberry Pi</h1>
             <p>Current GPU temperature is {}</p>
+            <form action="" method="post">
+                <input type="submit" name="forward" value="forward" />
+            </form>
             </body>
             </html>
         '''
@@ -41,13 +45,16 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode("utf-8")   # Get the data
         post_data = post_data.split("=")[1]    # Only keep the value
         
+        if post_data == 'forward':
+            hello_car.forward
+
         # GPIO setup here
 
-        # Example of a POST request here
-        if post_data == 'Go':
-            #GPIO.output(18, GPIO.HIGH) make it go
-        else:
-            #GPIO.output(18, GPIO.LOW) stop
+        # # Example of a POST request here
+        # if post_data == 'Go':
+        #     #GPIO.output(18, GPIO.HIGH) make it go
+        # else:
+        #     #GPIO.output(18, GPIO.LOW) stop
 
         self._redirect('/')    # Redirect back to the root url
 
