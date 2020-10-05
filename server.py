@@ -42,10 +42,15 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
 
+        robert = None
+        
         if post_data == 'start':
             robert = hello_car.Robert()
         elif post_data == 'stop':
-            robert.exit()
+            if robert != None:
+                robert.exit()
+            elif:
+                print("initialise robert please!")
             
         self._redirect('/')    # Redirect back to the root url
 
