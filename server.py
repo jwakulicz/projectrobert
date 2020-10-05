@@ -1,9 +1,19 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import hello_car
 import show_wifi_strength as wifi_sig
+import threading
+import time
 
 robert = hello_car.Robert()
 host_port = 8000
+
+def thread_function(n):
+    while n > 0
+        print('count', n)
+        n -= 1
+        time.sleep(5)
+
+counting_thread = threading.Thread(target=thread_function, args=(20, ))
 
 class MyServer(BaseHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
@@ -41,6 +51,12 @@ class MyServer(BaseHTTPRequestHandler):
             <form action="" method="post">
                 <input type="submit" name="right" value="right" />
             </form>
+            <form action="" method="post">
+                <input type="submit" name="start count thread" value="start_count" />
+            </form>
+            <form action="" method="post">
+                <input type="submit" name="stop count thread" value="stop_count" />
+            </form>
             </body>
             </html>
         '''
@@ -63,6 +79,11 @@ class MyServer(BaseHTTPRequestHandler):
             robert.right()
         elif post_data == 'backward':
             robert.backward()
+        elif post_data == 'start_count':
+            // start new thread
+            counting_thread.start()
+        elif post_data == 'stop_count'
+            // stop thread
             
         self._redirect('/')    # Redirect back to the root url
 
