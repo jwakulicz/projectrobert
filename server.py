@@ -1,6 +1,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import hello_car
 
+robert = hello_car.Robert()
 host_port = 8000
 
 class MyServer(BaseHTTPRequestHandler):
@@ -41,16 +42,11 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode("utf-8")   # Get the data
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
-
-        robert = None
         
         if post_data == 'start':
-            robert = hello_car.Robert()
+            print("clicked start")
         elif post_data == 'stop':
-            if robert != None:
-                robert.exit()
-            else:
-                print("initialise robert please!")
+            robert.exit()
             
         self._redirect('/')    # Redirect back to the root url
 
@@ -60,7 +56,7 @@ if __name__ == '__main__':
 
     http_server = HTTPServer((host_name, host_port), MyServer)
     print("Server Starts - %s:%s" % (host_name, host_port))
-
+    
     try:
         http_server.serve_forever()
     except KeyboardInterrupt:
