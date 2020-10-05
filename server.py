@@ -43,10 +43,10 @@ class MyServer(BaseHTTPRequestHandler):
         print(post_data)
 
         if post_data == 'start':
-            print("start button was clicked")
+            robert = hello_car.Robert()
         elif post_data == 'stop':
-            print("stop button was clicked")
-
+            robert.exit()
+            
         self._redirect('/')    # Redirect back to the root url
 
 if __name__ == '__main__':
