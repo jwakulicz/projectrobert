@@ -59,9 +59,9 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'left':
             robert.left()
         elif post_data == 'right':
-            robert_right()
+            robert.right()
         elif post_data == 'backward':
-            robert_backward()
+            robert.backward()
             
         self._redirect('/')    # Redirect back to the root url
 
