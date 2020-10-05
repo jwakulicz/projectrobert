@@ -89,7 +89,7 @@ class MyServer(BaseHTTPRequestHandler):
             print("Server Stopped")
             global wssi_toggle 
             wssi_toggle = False
-            sleep(10)
+            time.sleep(10)
             wifi_sig.turn_off_led(robert.red_pin, robert.blue_pin, robert.green_pin)
             robert.exit()
             http_server.server_close()
