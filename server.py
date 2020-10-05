@@ -7,13 +7,9 @@ import time
 robert = hello_car.Robert()
 host_port = 8000
 
-def thread_function(n):
-    while n > 0:
-        print('count', n)
-        n -= 1
-        time.sleep(5)
-
-counting_thread = threading.Thread(target=thread_function, args=(20, ))
+def thread_function(robert):
+    while(1):
+        wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
 
 class MyServer(BaseHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
@@ -77,6 +73,7 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'backward':
             robert.backward()
         elif post_data == 'start_count':
+            counting_thread = threading.Thread(target=thread_function, args=(robert, ))
             counting_thread.start()
             
         self._redirect('/')    # Redirect back to the root url
