@@ -1,12 +1,7 @@
-import RPi.GPIO as GPIO
-import os
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import hello_car
 
-
-host_name = '192.168.15.9'    # ip address of Pi
 host_port = 8000
-
 
 class MyServer(BaseHTTPRequestHandler):
     """ A special implementation of BaseHTTPRequestHander for reading data from
@@ -28,8 +23,7 @@ class MyServer(BaseHTTPRequestHandler):
         html = '''
             <html>
             <body style="width:960px; margin: 20px auto;">
-            <h1>Welcome to my Raspberry Pi</h1>
-            <p>Current GPU temperature is {}</p>
+            <h1>Welcome to ROBERT</h1>
             <form action="" method="post">
                 <input type="submit" name="start" value="start" />
             </form>
@@ -39,7 +33,6 @@ class MyServer(BaseHTTPRequestHandler):
             </body>
             </html>
         '''
-        temp = os.popen("/opt/vc/bin/vcgencmd measure_temp").read()
         self.do_HEAD()
         self.wfile.write(html.format(temp[5:]).encode("utf-8"))
 
@@ -54,17 +47,12 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'stop':
             print("stop button was clicked")
 
-        # GPIO setup here
-
-        # # Example of a POST request here
-        # if post_data == 'Go':
-        #     #GPIO.output(18, GPIO.HIGH) make it go
-        # else:
-        #     #GPIO.output(18, GPIO.LOW) stop
-
         self._redirect('/')    # Redirect back to the root url
 
 if __name__ == '__main__':
+    print("Enter raspberry pi ip address")
+    host_name = raw_input()
+
     http_server = HTTPServer((host_name, host_port), MyServer)
     print("Server Starts - %s:%s" % (host_name, host_port))
 
