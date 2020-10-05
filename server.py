@@ -9,7 +9,7 @@ host_port = 8000
 class StoppableWSSIThread(threading.Thread):
 
     def __init__(self,  *args, **kwargs):
-        super(StoppableThread, self).__init__(*args, **kwargs)
+        super(StoppableWSSIThread, self).__init__(*args, **kwargs)
 
     def stop(self):
         self.is_alive = False
