@@ -67,7 +67,9 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
         
-        threading.Thread(target=wssi_thread_func, args=(robert, ), daemon=True).start()
+        wssi_thread = threading.Thread(target=wssi_thread_func, args=(robert, ))
+        wssi_thread.daemon = True
+        wssi_thread.start()
 
         if post_data == 'forward':
             robert.forward()
