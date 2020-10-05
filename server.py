@@ -50,6 +50,9 @@ class MyServer(BaseHTTPRequestHandler):
             <form action="" method="post">
                 <input type="submit" name="start wifi signal strength indicator" value="start_wssi" />
             </form>
+            <form action="" method="post">
+                <input type="submit" name="close server" value="close_server" />
+            </form>
             </body>
             </html>
         '''
@@ -74,6 +77,10 @@ class MyServer(BaseHTTPRequestHandler):
             robert.backward()
         elif post_data == 'start_wssi':
             threading.Thread(target=wifi_sig_str_thread_function, args=(robert, )).start()
+        elif post_data == 'close_server':
+            print("Server Stopped")
+            robert.exit()
+            http_server.server_close()
             
         self._redirect('/')    # Redirect back to the root url
 
