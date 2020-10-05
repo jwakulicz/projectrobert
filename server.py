@@ -26,10 +26,19 @@ class MyServer(BaseHTTPRequestHandler):
             <body style="width:960px; margin: 20px auto;">
             <h1>Welcome to ROBERT</h1>
             <form action="" method="post">
-                <input type="submit" name="start" value="start" />
+                <input type="submit" name="forward" value="forward" />
             </form>
             <form action="" method="post">
                 <input type="submit" name="stop" value="stop" />
+            </form>
+            <form action="" method="post">
+                <input type="submit" name="backward" value="backward" />
+            </form>
+            <form action="" method="post">
+                <input type="submit" name="left" value="left" />
+            </form>
+            <form action="" method="post">
+                <input type="submit" name="right" value="right" />
             </form>
             </body>
             </html>
@@ -43,10 +52,16 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
         
-        if post_data == 'start':
-            print("clicked start")
+        if post_data == 'forward':
+            robert.forward()
         elif post_data == 'stop':
-            robert.exit()
+            robert.stop()
+        elif post_data == 'left':
+            robert.left()
+        elif post_data == 'right':
+            robert_right()
+        elif post_data == 'backward':
+            robert_backward()
             
         self._redirect('/')    # Redirect back to the root url
 
@@ -61,5 +76,5 @@ if __name__ == '__main__':
         http_server.serve_forever()
     except KeyboardInterrupt:
         print("Server Stopped")
-        # hello_car.exit()
+        robert.exit()
         http_server.server_close()

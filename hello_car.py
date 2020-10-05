@@ -56,19 +56,19 @@ class Robert:
         GPIO.cleanup()
         print("pins cleaned")
 
-def left():
-    p_left.ChangeDutyCycle(100)
-    p_right.ChangeDutyCycle(25)
+    def left(self):
+        self.p_left.ChangeDutyCycle(100)
+        self.p_right.ChangeDutyCycle(25)
     
-def right():
-    p_left.ChangeDutyCycle(25)
-    p_right.ChangeDutyCycle(100)
+    def right(self):
+        self.p_left.ChangeDutyCycle(25)
+        self.p_right.ChangeDutyCycle(100)
 
-def backward():
-    GPIO.output(in1,GPIO.LOW)
-    GPIO.output(in2,GPIO.HIGH)
-    GPIO.output(in3,GPIO.LOW)
-    GPIO.output(in4,GPIO.HIGH)
-    p_left.ChangeDutyCycle(75)
-    p_right.ChangeDutyCycle(75)
+    def backward(self):
+        GPIO.output(self.in1,GPIO.LOW)
+        GPIO.output(self.in2,GPIO.HIGH)
+        GPIO.output(self.in3,GPIO.LOW)
+        GPIO.output(self.in4,GPIO.HIGH)
+        self.p_left.ChangeDutyCycle(75)
+        self.p_right.ChangeDutyCycle(75)
 
