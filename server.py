@@ -34,7 +34,6 @@ class MyServer(BaseHTTPRequestHandler):
             </html>
         '''
         self.do_HEAD()
-        self.wfile.write(html.format(temp[5:]).encode("utf-8"))
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])    # Get the size of data
