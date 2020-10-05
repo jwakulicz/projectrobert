@@ -71,4 +71,4 @@ class Robert:
         GPIO.output(self.in4,GPIO.HIGH)
         self.p_left.ChangeDutyCycle(75)
         self.p_right.ChangeDutyCycle(75)
-
+        

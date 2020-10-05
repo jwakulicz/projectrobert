@@ -1,5 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import hello_car
+import show_wifi_strength as wifi_sig
 
 robert = hello_car.Robert()
 host_port = 8000
@@ -71,10 +72,19 @@ if __name__ == '__main__':
 
     http_server = HTTPServer((host_name, host_port), MyServer)
     print("Server Starts - %s:%s" % (host_name, host_port))
+    count = 1
     
-    try:
-        http_server.serve_forever()
-    except KeyboardInterrupt:
-        print("Server Stopped")
-        robert.exit()
-        http_server.server_close()
+    while(1):
+        print(count)
+        
+        try:
+            http_server.serve_forever()    
+        except KeyboardInterrupt:
+            print("Server Stopped")
+            robert.exit()
+            http_server.server_close()
+        
+        break
+        
+        count += count
+        
