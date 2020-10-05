@@ -54,9 +54,6 @@ class MyServer(BaseHTTPRequestHandler):
             <form action="" method="post">
                 <input type="submit" name="start count thread" value="start_count" />
             </form>
-            <form action="" method="post">
-                <input type="submit" name="stop count thread" value="stop_count" />
-            </form>
             </body>
             </html>
         '''
@@ -80,10 +77,7 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'backward':
             robert.backward()
         elif post_data == 'start_count':
-            // start new thread
             counting_thread.start()
-        elif post_data == 'stop_count'
-            // stop thread
             
         self._redirect('/')    # Redirect back to the root url
 
