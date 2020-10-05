@@ -31,7 +31,10 @@ class MyServer(BaseHTTPRequestHandler):
             <h1>Welcome to my Raspberry Pi</h1>
             <p>Current GPU temperature is {}</p>
             <form action="" method="post">
-                <input type="submit" name="forward" value="forward" />
+                <input type="submit" name="start" value="start" />
+            </form>
+            <form action="" method="post">
+                <input type="submit" name="stop" value="stop" />
             </form>
             </body>
             </html>
@@ -44,9 +47,12 @@ class MyServer(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])    # Get the size of data
         post_data = self.rfile.read(content_length).decode("utf-8")   # Get the data
         post_data = post_data.split("=")[1]    # Only keep the value
-        
-        if post_data == 'forward':
-            hello_car.forward()
+        print(post_data)
+
+        if post_data == 'start':
+            hello_car.init()
+        elif post_data == 'stop':
+            hello_car.stop()
 
         # GPIO setup here
 
@@ -65,4 +71,6 @@ if __name__ == '__main__':
     try:
         http_server.serve_forever()
     except KeyboardInterrupt:
+        print("Server Stopped")
+        hello_car.exit()
         http_server.server_close()
