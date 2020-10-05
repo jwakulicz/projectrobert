@@ -7,9 +7,22 @@ import time
 robert = hello_car.Robert()
 host_port = 8000
 
+class StoppableThread(threading.Thread):
+    """Thread class with a stop() method. The thread itself has to check
+    regularly for the stopped() condition."""
+
+    def __init__(self,  *args, **kwargs):
+        super(StoppableThread, self).__init__(*args, **kwargs)
+        self._stop_event = threading.Event()
+
+    def stop(self):
+        self._stop_event.set()
+
+    def stopped(self):
+        return self._stop_event.is_set()
+
 def wifi_sig_str_thread_function(robert):
-    global toggle
-    while(toggle):
+    while(1):
         wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
 
 class MyServer(BaseHTTPRequestHandler):
@@ -65,8 +78,9 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode("utf-8")   # Get the data
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
-        global toggle
         
+        wssi_thread = StoppableThread(target=wifi_sig_str_thread_function, args=(robert, ))
+
         if post_data == 'forward':
             robert.forward()
         elif post_data == 'stop':
@@ -78,11 +92,10 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'backward':
             robert.backward()
         elif post_data == 'start_wssi':
-            toggle = True
-            threading.Thread(target=wifi_sig_str_thread_function, args=(robert, )).start()
+            wssi_thread.start()
         elif post_data == 'close_server':
             print("Server Stopped")
-            toggle = False
+            wssi_thread.stop()
             wifi_sig.turn_off_led(robert.red_pin, robert.blue_pin, robert.green_pin)
             robert.exit()
             http_server.server_close()
@@ -90,9 +103,6 @@ class MyServer(BaseHTTPRequestHandler):
         self._redirect('/')    # Redirect back to the root url
 
 if __name__ == '__main__':
-    global toggle
-    toggle = False
-
     print("Enter raspberry pi ip address")
     host_name = raw_input()
 
