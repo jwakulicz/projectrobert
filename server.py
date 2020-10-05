@@ -8,7 +8,8 @@ robert = hello_car.Robert()
 host_port = 8000
 
 def wifi_sig_str_thread_function(robert):
-    while(1):
+    global toggle
+    while(toggle):
         wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
 
 class MyServer(BaseHTTPRequestHandler):
@@ -76,15 +77,20 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'backward':
             robert.backward()
         elif post_data == 'start_wssi':
+            toggle = True
             threading.Thread(target=wifi_sig_str_thread_function, args=(robert, )).start()
         elif post_data == 'close_server':
             print("Server Stopped")
+            toggle = False
             robert.exit()
             http_server.server_close()
             
         self._redirect('/')    # Redirect back to the root url
 
 if __name__ == '__main__':
+    global toggle
+    toggle = False
+
     print("Enter raspberry pi ip address")
     host_name = raw_input()
 
