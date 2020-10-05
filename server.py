@@ -8,7 +8,7 @@ robert = hello_car.Robert()
 host_port = 8000
 
 def thread_function(n):
-    while n > 0
+    while n > 0:
         print('count', n)
         n -= 1
         time.sleep(5)
