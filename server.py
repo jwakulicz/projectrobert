@@ -1,27 +1,12 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import hello_car
 import show_wifi_strength as wifi_sig
-import threading
-import time
+import multiprocessing
 
 robert = hello_car.Robert()
 host_port = 8000
 
-class StoppableThread(threading.Thread):
-    """Thread class with a stop() method. The thread itself has to check
-    regularly for the stopped() condition."""
-
-    def __init__(self,  *args, **kwargs):
-        super(StoppableThread, self).__init__(*args, **kwargs)
-        self._stop_event = threading.Event()
-
-    def stop(self):
-        self._stop_event.set()
-
-    def stopped(self):
-        return self._stop_event.is_set()
-
-def wifi_sig_str_thread_function(robert):
+def wssi_proc_func(robert):
     while(1):
         wifi_sig.show_signal_strength(robert.red_pin, robert.blue_pin, robert.green_pin)
 
@@ -79,7 +64,7 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
         
-        wssi_thread = StoppableThread(target=wifi_sig_str_thread_function, args=(robert, ))
+        wssi_proc = multiprocessing.Process(target=wssi_proc_func, args=(robert, ))
 
         if post_data == 'forward':
             robert.forward()
@@ -92,11 +77,10 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'backward':
             robert.backward()
         elif post_data == 'start_wssi':
-            wssi_thread.start()
+            wssi_proc.start()
         elif post_data == 'close_server':
             print("Server Stopped")
-            wssi_thread.join()
-            wssi_thread.stop()
+            wssi_proc.terminate()
             wifi_sig.turn_off_led(robert.red_pin, robert.blue_pin, robert.green_pin)
             robert.exit()
             http_server.server_close()
