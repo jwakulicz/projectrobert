@@ -50,9 +50,9 @@ class MyServer(BaseHTTPRequestHandler):
         print(post_data)
 
         if post_data == 'start':
-            hello_car.init()
+            print("start button was clicked")
         elif post_data == 'stop':
-            hello_car.stop()
+            print("stop button was clicked")
 
         # GPIO setup here
 
@@ -72,5 +72,5 @@ if __name__ == '__main__':
         http_server.serve_forever()
     except KeyboardInterrupt:
         print("Server Stopped")
-        hello_car.exit()
+        # hello_car.exit()
         http_server.server_close()
