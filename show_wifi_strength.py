@@ -36,3 +36,7 @@ def show_signal_strength(red_pin, blue_pin, green_pin):
         GPIO.output(green_pin, GPIO.LOW)
          
             
+def turn_off_led(red_pin, blue_pin, green_pin):
+    GPIO.output(red_pin, GPIO.LOW)
+    GPIO.output(blue_pin, GPIO.LOW)
+    GPIO.output(green_pin, GPIO.LOW)

@@ -82,6 +82,7 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'close_server':
             print("Server Stopped")
             toggle = False
+            wifi_sig.turn_off_led(robert.red_pin, robert.blue_pin, robert.green_pin)
             robert.exit()
             http_server.server_close()
             
