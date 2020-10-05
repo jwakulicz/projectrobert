@@ -65,6 +65,7 @@ class MyServer(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length).decode("utf-8")   # Get the data
         post_data = post_data.split("=")[1]    # Only keep the value
         print(post_data)
+        global toggle
         
         if post_data == 'forward':
             robert.forward()
