@@ -49,7 +49,7 @@ class MyServer(BaseHTTPRequestHandler):
         elif post_data == 'stop':
             if robert != None:
                 robert.exit()
-            elif:
+            else:
                 print("initialise robert please!")
             
         self._redirect('/')    # Redirect back to the root url
